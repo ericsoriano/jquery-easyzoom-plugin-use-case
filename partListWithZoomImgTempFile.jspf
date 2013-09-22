@@ -1,0 +1,264 @@
+<table cellspacing="0" cellpadding="0" class="partsTable">
+	<thead>
+		<tr>
+			<th class="colLogo"><a href="javascript:sortTable('brand', 0, 'tableBody<c:out value="${appIndex}" />');">brand</a></th>
+			<th class="colImage">image</th>
+			<th class="colSKU"><a href="javascript:sortTable('partNo', 2, 'tableBody<c:out value="${appIndex}" />');">part #</a></th>
+			<th class="colDescription">description</th>
+			<th class="colStock">in stock?</th>
+			<th class="colPrice"><a href="javascript:sortTable('price', 5, 'tableBody<c:out value="${appIndex}" />');">price</a></th>
+			<th class="colBuy">&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody id="tableBody<c:out value="${appIndex}" />">
+		<c:forEach var="partDetailBean" items="${partDetailList}">
+			<c:set var="uniqueId" value="${appIndex}_${partDetailBean.catentryId}" />
+			<c:if test="${empty partTermName}">
+				<c:set var="partTermName" value="${partDetailBean.name}" />
+			</c:if>
+			<c:choose>
+				<c:when test="${partDetailBean.noMast}">
+					<tr>
+			          	<td class="colLogo">
+			        		&nbsp;
+			        	</td>
+			          	<td class="colImage">
+			          		<img src="http://images.imcparts.net/webapp/wcs/stores/servlet/imc/images/thumb/defaultx150.jpg" alt="">
+			          		<br/>
+			          		<c:url var="ApplicationInfoURL" value="ApplicationInfoView">
+								<c:param name="storeId" value="10651" />
+								<c:param name="applicationNumber" value="${partDetailBean.displayPartNumber}" />
+							</c:url>
+							<b><a href="<c:out value="${ApplicationInfoURL}" />" target="_blank"><font style="font-size:1em;" color="#990000">Also Fits</font></a></b>
+			          	</td>
+			          	<td class="colSKU">
+			          		<c:out value="${partDetailBean.displayPartNumber}" />
+			          		
+			          		<c:if test="${!empty partDetailBean.tnAvailable && partDetailBean.tnAvailable eq true}">
+			          			<c:url var="AjaxTechNotesURL" value="AjaxTechNotesURL">
+		    	    				<c:param name="unspacedPartNumber" value="${partDetailBean.unspacedPartNumber}" />
+		    	    			</c:url>
+		          				<br/></br></br>
+		          				<b><a href="#" onclick="showTechNotesAvailability('<c:out value="${AjaxTechNotesURL}" />','<c:out value="${unspacedPartNumber}" />')"><font size='1' color='red'>Tech Notes</font></a></b>
+		          			</c:if>
+			          	</td>
+			          	<td class="colDescription">
+		        			<c:out value="${partDetailBean.name}" /><br />
+		        			<c:if test="${!empty partDetailBean.description}">
+		        				<c:out value="${partDetailBean.description}" /><br />
+		        			</c:if>
+		        			<c:if test="${!empty partDetailBean.outsideNote}">
+		        				<c:out value="${partDetailBean.outsideNote}" /><br />
+		        			</c:if>
+		        			<c:if test="${!empty partDetailBean.qtyRequired}">
+		        				</br><b>Qty. Req: <c:out value="${partDetailBean.qtyRequired}" /></b>
+		        			</c:if>
+		        		</td>
+		        		<td colspan="3">
+		        			Item currently under research. Item is not available for purchase.
+		        		</td>
+		        	</tr>
+				</c:when>
+				<c:when test="${partDetailBean.pricingNotAvailable}">
+					<tr>
+			          	<td class="colLogo">
+			          		<c:if test="${!empty partDetailBean.brandImageUrl}">
+			        			<img alt="<c:out value="${partDetailBean.manufacturerName}" />" src="<c:out value="${partDetailBean.brandImageUrl}" />" class="brandThumb"  /><br />
+			        		</c:if>
+			        		<c:out value="${partDetailBean.manufacturerName}" />
+			        	</td>
+			          	<td class="colImage">
+			          		<a href="<c:out value="${partDetailBean.fullSizeImageUrl}" />" dojoType="dojox.image.Lightbox">
+			          			<img alt="<c:out value="${partDetailBean.name}" />" src="<c:out value="${partDetailBean.partImageUrl}" />" />
+			          		</a>
+			          	</td>
+			          	<td class="colSKU">
+		          			<c:out value="${partDetailBean.displayPartNumber}"/>
+		          			
+		          			<c:if test="${!empty partDetailBean.tnAvailable && partDetailBean.tnAvailable eq true}">
+			          			<c:url var="AjaxTechNotesURL" value="AjaxTechNotesURL">
+		    	    				<c:param name="unspacedPartNumber" value="${partDetailBean.unspacedPartNumber}" />
+		    	    			</c:url>
+		          				<br/></br></br>
+		          				<b><a href="#" onclick="showTechNotesAvailability('<c:out value="${AjaxTechNotesURL}" />','<c:out value="${unspacedPartNumber}" />')"><font size='1' color='red'>Tech Notes</font></a></b>
+		          			</c:if>
+			          	</td>
+			          	<td class="colDescription">
+		        			<c:out value="${partDetailBean.name}" /><br />
+		        			<c:if test="${!empty partDetailBean.description}">
+		        				<c:out value="${partDetailBean.description}" /><br />
+		        			</c:if>
+		        			<c:if test="${!empty partDetailBean.outsideNote}">
+		        				<c:out value="${partDetailBean.outsideNote}" /><br />
+		        			</c:if>
+		        			<c:if test="${!empty partDetailBean.qtyRequired}">
+		        				</br><b>Qty. Req: <c:out value="${partDetailBean.qtyRequired}" /></b>
+		        			</c:if>
+		        		</td>
+		        		<td colspan="3">
+		        			Pricing currently not available.
+		        		</td>
+		        	</tr>
+				</c:when>
+				<c:otherwise>
+					<tr>
+			          	<td class="colLogo">
+	          				<c:if test="${!empty partDetailBean.brandImageUrl}">
+		        				<img alt="<c:out value="${partDetailBean.manufacturerName}" />" src="<c:out value="${partDetailBean.brandImageUrl}" />" class="brandThumb"  /><br />
+		        			</c:if>
+		        			<c:out value="${partDetailBean.manufacturerName}" />
+			        	</td>
+			          	<td class="colImage">
+			          		<!--  <a href="<c:out value="${partDetailBean.fullSizeImageUrl}" />" dojoType="dojox.image.Lightbox">	-->
+			          		<!--  <a href="<c:out value="/wcsstore/imc/images/tempBigImg.jpg" />" dojoType="dojox.image.Lightbox" class="zoom" style="cursor: crosshair;" dojoType="dojox.image.Lightbox">	-->
+			          		<a href="<c:out value="${partDetailBean.fullSizeImageUrl}" />" dojoType="dojox.image.Lightbox" class="zoom" style="cursor: crosshair;" >
+			          			<img alt="<c:out value="${partDetailBean.name}" />" src="<c:out value="${partDetailBean.partImageUrl}" />" />
+			          		</a>
+			          		<br/><br/>
+			          		<c:url var="ApplicationInfoURL" value="ApplicationInfoView">
+								<c:param name="storeId" value="10651" />
+								<c:param name="productId" value="${partDetailBean.catentryId}" />
+								<c:param name="position" value="${position}" />
+								<c:param name="partName" value="${partDetailBean.name}" />
+								<c:param name="brand" value="${partDetailBean.manufacturerName}" />
+								<c:param name="partNumber" value="${partDetailBean.displayPartNumber}" />
+							</c:url>
+							<b><a href="<c:out value="${ApplicationInfoURL}" />" target="_blank"><font style="font-size:1em;" color="#990000">Also Fits</font></a></b>
+			          	</td>
+			          	<td class="colSKU">
+			          		<a href="javascript:viewProduct('<c:out value="${appIndex}" />', '<c:out value="${partTermName}" />', <c:out value="${partDetailBean.catentryId}" />, 
+			          								'<c:out value="${partDetailBean.qtyRequired}" />', '<c:out value="${partDetailBean.name}" />', '<c:out value="${partDetailBean.orderedAsPartNumber}" />')">
+			          			<c:out value="${partDetailBean.displayPartNumber}" />
+			          		</a>
+			          		<c:if test="${!empty partDetailBean.tnAvailable && partDetailBean.tnAvailable eq true}">
+			          			<c:url var="AjaxTechNotesURL" value="AjaxTechNotesURL">
+		    	    				<c:param name="unspacedPartNumber" value="${partDetailBean.unspacedPartNumber}" />
+		    	    			</c:url>
+		          				<br/></br></br>
+		          				<b><a href="#" onclick="showTechNotesAvailability('<c:out value="${AjaxTechNotesURL}" />','<c:out value="${unspacedPartNumber}" />')"><font size='1' color='red'>Tech Notes</font></a></b>
+		          			</c:if>
+			          	</td>
+			          	<td class="colDescription">
+		        			<c:out value="${partDetailBean.name}" /><br />
+		        			<c:if test="${!empty partDetailBean.description}">
+		        				<c:out value="${partDetailBean.description}" /><br />
+		        			</c:if>
+		        			<c:if test="${!empty partDetailBean.outsideNote}">
+		        				<c:out value="${partDetailBean.outsideNote}" /><br />
+		        			</c:if>
+		        			<c:if test="${!empty partDetailBean.qtyRequired}">
+		        				</br><b>Qty. Req: <c:out value="${partDetailBean.qtyRequired}" /></b>
+		        			</c:if>
+		        		</td>
+			          	<td class="colStock">
+			          	<c:set var="batteryDis" value="${partDetailBean.batteryFlag}" />
+			          		<c:choose>
+		        				<c:when test="${dropShipper}">
+		        				    <c:choose>
+		        				    	<c:when test="${batteryDis == '1'}">
+		        				    		Out of Stock
+		        				    	</c:when>
+		        				    	<c:otherwise>
+		        				    		<c:choose>
+		        				    			<c:when test="${partDetailBean.DSInventory eq 'In Stock'}">
+		        				    				<c:url var="AjaxAdditionalInventoryURL" value="AjaxAdditionalInventoryURL">
+		    	    									<c:param name="inventoryListByBranch" value="${partDetailBean.inventoryCSV}" />
+		    	    								</c:url>
+		    	    								<a href="#" onclick="showAppItemAvailability('<c:out value="${AjaxAdditionalInventoryURL}" />', '<c:out value="${partTermName}" />', '<c:out value="${partDetailBean.catentryId}" />',1 ,'<c:out value="${partDetailBean.partNumber}" />', '<c:out value="${partDetailBean.orderedAsPartNumber}" />', 'AppPartQty<c:out value="${uniqueId}" />'); return false;"><c:out value="${partDetailBean.DSInventory}" /></a>
+		        				    			</c:when>
+		        				    			<c:otherwise>
+		        				    				<c:out value="${partDetailBean.DSInventory}" />
+		        				    			</c:otherwise>
+		        				    		</c:choose>
+		        				    	</c:otherwise>
+		        				    </c:choose>
+		        				</c:when>
+		        				<c:otherwise>
+		        					<c:choose>
+		        						<c:when test="${partDetailBean.primaryInventory > 0}">
+		        							<fmt:message key="branch_${primaryBranch}" bundle="${imcText}" />: <span class="instockPrimayBranch"><c:out value="${partDetailBean.primaryInventory}" /></span>
+		        						</c:when>
+		        						<c:otherwise>
+		        							<fmt:message key="branch_${primaryBranch}" bundle="${imcText}" />: <span class="nostockPrimayBranch"><c:out value="${partDetailBean.primaryInventory}" /></span>
+		        						</c:otherwise>
+		        					</c:choose>
+		        				</c:otherwise>
+		        			</c:choose>
+							<br />
+							<c:if test="${!dropShipper}">
+								<c:choose>
+		  	      					<c:when test="${partDetailBean.altInventoryAvailable}">
+		  	      						<c:url var="AjaxAdditionalInventoryURL" value="AjaxAdditionalInventoryURL">
+		    	    						<c:param name="inventoryListByBranch" value="${partDetailBean.inventoryCSV}" />
+		    	    					</c:url>
+		  	      						Other: <a href="#" onclick="showAppItemAvailability('<c:out value="${AjaxAdditionalInventoryURL}" />', '<c:out value="${partTermName}" />', '<c:out value="${partDetailBean.catentryId}" />',1 ,'<c:out value="${partDetailBean.partNumber}" />', '<c:out value="${partDetailBean.orderedAsPartNumber}" />', 'AppPartQty<c:out value="${uniqueId}" />'); return false;">YES</a>
+		  	      					</c:when>
+		  	      					<c:otherwise>
+		  	      						Other: NO
+		  	      					</c:otherwise>
+								</c:choose>
+							</c:if>
+			          	</td>
+			          	<td class="colPrice">
+				          	<strong>
+		  						<font class="<c:out value="${priceClassName}" />" title="priceFont">
+		  							<c:out value="${partDetailBean.price}" />
+		  						</font>
+		  					</strong>
+							<font class="blockDisplay" title="priceListFont">
+								list: <c:out value="${partDetailBean.listPrice}" /><br />
+							</font>
+							<font class="<c:out value="${priceClassName}" />" title="priceFont">
+								core: <c:out value="${partDetailBean.corePrice}" />
+							</font>
+			            </td>
+			            <c:choose>
+			            	<c:when test="${partDetailBean.totalInventory > 0}">
+			            		<c:set var="qtyReq" value="1" />
+								<c:if test="${!empty partDetailBean.qtyRequired}">
+									<c:set var="qtyReq" value="${partDetailBean.qtyRequired}" />
+								</c:if>
+								<c:set var="batteryDis" value="${partDetailBean.batteryFlag}" />
+								<c:choose>
+									<c:when test="${batteryDis == '1'}">
+										<c:choose>
+											<c:when test="${dropShipper}">
+												<td class="colBuy"><input id="tbAppPartQty<c:out value="${uniqueId}" />" name="" type="text" value="<c:out value="${qtyReq}" />" class="selectPartInput" /> <img id="imgAppPartQty<c:out value="${uniqueId}" />" src="<c:out value="${storeImgDir}" />images/button_notInStock.png" class="selectPartButton" alt="" 
+				          							/>
+				          							<a class="paAddToJob" href="javascript:showAddToJob(this, '<c:out value="${partDetailBean.catentryId}" />', document.getElementById('tbAppPartQty<c:out value="${uniqueId}" />').value);">add to my jobs</a>
+				               					</td>
+											</c:when>
+											<c:otherwise>
+												<td class="colBuy"><input id="tbAppPartQty<c:out value="${uniqueId}" />" name="" type="text" value="<c:out value="${qtyReq}" />" class="selectPartInput" /><img id="imgAppPartQty<c:out value="${uniqueId}" />" src="<c:out value="${storeImgDir}" />images/button_addToCart_small.gif" class="selectPartButton" alt="" onclick="popUpAgrement(this, '<c:out value="${partDetailBean.catentryId}" />', '<c:out value="${partDetailBean.partNumber}" />', '<c:out value="${partDetailBean.orderedAsPartNumber}" />', 'AppPartQty<c:out value="${uniqueId}" />');" 
+													/><a class="paRemoveItem" style="display:none;" href="javascript:removePartItemFromCart(this, 'catEntryId', '<c:out value="${partDetailBean.catentryId}" />', document.getElementById('tbAppPartQty<c:out value="${uniqueId}" />').value, 'AppPartQty<c:out value="${uniqueId}" />');">remove item!</a>
+								          			<a class="paAddToJob" href="javascript:showAddToJob(this, '<c:out value="${partDetailBean.catentryId}" />', document.getElementById('tbAppPartQty<c:out value="${uniqueId}" />').value);">add to my jobs</a>
+							          			</td>
+											</c:otherwise>
+										</c:choose>			
+									</c:when>
+									<c:otherwise>
+							          	<td class="colBuy"><input id="tbAppPartQty<c:out value="${uniqueId}" />" name="" type="text" value="<c:out value="${qtyReq}" />" class="selectPartInput" /> <img id="imgAppPartQty<c:out value="${uniqueId}" />" src="<c:out value="${storeImgDir}" />images/button_addToCart_small.gif" class="selectPartButton" alt="" onclick="addPartToCartViaTbImg(this, '<c:out value="${partDetailBean.catentryId}" />', '<c:out value="${partDetailBean.partNumber}" />', '<c:out value="${partDetailBean.orderedAsPartNumber}" />', 'AppPartQty<c:out value="${uniqueId}" />');" 
+						          			/><a class="paRemoveItem" style="display:none;" href="javascript:removePartItemFromCart(this, 'catEntryId', '<c:out value="${partDetailBean.catentryId}" />', document.getElementById('tbAppPartQty<c:out value="${uniqueId}" />').value, 'AppPartQty<c:out value="${uniqueId}" />');">remove item!</a>
+						          			<a class="paAddToJob" href="javascript:showAddToJob(this, '<c:out value="${partDetailBean.catentryId}" />', document.getElementById('tbAppPartQty<c:out value="${uniqueId}" />').value);">add to my jobs</a>
+						               	</td>
+				          			</c:otherwise>
+								</c:choose>
+							</c:when>
+							<c:otherwise>	
+								<c:set var="qtyReq" value="1" />
+								<c:if test="${!empty partDetailBean.qtyRequired}">
+									<c:set var="qtyReq" value="${partDetailBean.qtyRequired}" />
+								</c:if>
+								<td class="colBuy"><input id="tbAppPartQty<c:out value="${uniqueId}" />" name="" type="text" value="<c:out value="${qtyReq}" />" class="selectPartInput" /> <img id="imgAppPartQty<c:out value="${uniqueId}" />" src="<c:out value="${storeImgDir}" />images/button_notInStock.png" class="selectPartButton" alt="" 
+				          			/>
+				          			<a class="paAddToJob" href="javascript:showAddToJob(this, '<c:out value="${partDetailBean.catentryId}" />', document.getElementById('tbAppPartQty<c:out value="${uniqueId}" />').value);">add to my jobs</a>
+				               	</td>					               
+							</c:otherwise>
+						</c:choose>
+			        </tr>
+				</c:otherwise>
+			</c:choose>
+        </c:forEach>
+	</tbody>
+</table>
+

@@ -1,0 +1,62 @@
+
+<link rel="stylesheet" href="<c:out value="${storeImgDir}"/>css/styles.css" type="text/css" /> 
+  
+<!--[if IE 8]>     <link rel="stylesheet" href="<c:out value="${storeImgDir}"/>css/ie8.css" type="text/css" /><![endif]-->
+<!--[if IE 7]>     <link rel="stylesheet" href="<c:out value="${storeImgDir}"/>css/ie7.css" type="text/css" /><![endif]-->
+<!--[if lte IE 6]> <link rel="stylesheet" href="<c:out value="${storeImgDir}"/>css/ie6.css" type="text/css" /><![endif]-->
+<link rel="stylesheet" href="<c:out value="${storeImgDir}"/>css/style_zcg.css" type="text/css" /> 
+<link rel="stylesheet" href="<c:out value="${storeImgDir}"/>css/customMergeLater.css" type="text/css" /> 
+<script type="text/javascript" src="<c:out value="${jspStoreImgDir}javascript/common.js"/>"></script>
+<script>
+	setImageSource("<c:out value="${storeImgDir}" />");
+	setHidePrices(<c:out value="${hidePrices}" />);
+	setStoreId("<c:out value="${storeId}" />");
+   	setCatalogId("<c:out value="${catalogId}" />");
+   	setLangId("<c:out value="${langId}" />");
+   	setDropShipper(<c:out value="${dropShipper}" />);
+   	setShowdspopup(<c:out value="${showdspopup}" />);
+</script>
+<script type="text/javascript"> 
+	djConfig = { preventBackButtonFix: false, parseOnLoad:true};
+</script>
+<script type="text/javascript" src="/wcsstore/dojo-release-1.4.2/dojo/dojo.js"></script> 
+<script type="text/javascript" src="/wcsstore/dojo-release-1.4.2/dojo/IMCCustomLoad.js"></script> 
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script type="text/javascript" src="<c:out value="${jspStoreImgDir}javascript/easyzoom.js"/>"></script>
+
+
+<script type="text/javascript">
+	dojo.registerModulePath("wc", "wc");  
+	dojo.registerModulePath("imc", "imc");  
+	dojo.require("dojox.image.Lightbox");
+ 	
+ 	dojo.addOnLoad(function(){
+    	// create and start the lightboxes - FIX to align the images in the center
+    	var lb = new dojox.image.Lightbox({ title:"One", group:"group2", href:"shim.gif" });
+
+    	lb.startup();
+    	lb.show();
+    	lb.hide();
+
+	});
+</script>
+<script type="text/javascript" src="<c:out value="${jspStoreImgDir}" />javascript/apl.js"></script>
+<link rel="stylesheet" type="text/css" href="/wcsstore/dojo-release-1.4.2/dijit/themes/tundra/tundra.css" />
+
+<script type="text/javascript" src="<c:out value="${jspStoreImgDir}javascript/soundmanager2-nodebug-jsmin.js"/>"></script>
+<script>
+	soundManager.url = '<c:out value="${jspStoreImgDir}swf/" />';
+	soundManager.debug = false;
+</script>
+
+<%@ include file="routeTimeSettingsLoad.jspf" %>
+<script>
+	setAlarmActive("<c:out value="${alarmActive}" />");
+   	setCartAlarmActive("<c:out value="${cartAlarmActive}" />");
+   	setNoticeMinutes("<c:out value="${noticeMinutes}" />");
+   	setAlarmSoundName("<c:out value="${alarmSoundName}" />");
+   	setAlarmSoundFile("<c:out value="${alarmSoundFile}" />");
+   	setDefaultNoticeMinutes("<c:out value="${defaultNoticeMinutes}" />");
+</script>
+
